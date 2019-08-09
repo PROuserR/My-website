@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+<h1>Add a new answer:</h1>
+<form action="{% url 'bio:add_answer' question.id%}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button name="submit" class="btn btn-outline-primary">Answer</button>
+
+</form>
+
+{% endblock %}
