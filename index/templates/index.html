@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content%}
+{% load static %}
+<br>
+<div class="shadow p-3 mb-5 bg-white rounded" style="display: inline-block;width: 75%">
+    <p style="font-size: 300%;font-style: italic">Meet her The actress Shailene Woodley</p>
+    <img src="{% static 'shailene.jpg' %}" height="350px" width="250px" class="rounded-circle" />
+    <hr>
+    <img src="{% static 'news-icon.png'%}" height="200px" width="220px">
+
+<div class="list-group">
+    {% for new in news %}
+  <a href="https://{{ new.2 }}" class="list-group-item list-group-item-action">
+    
+    <div class="d-flex w-100 justify-content-between">
+      <h1>{{ new.3 }}</h1>
+      <small class="text-muted">{{ new.1 }}</small>
+    </div>
+    <p class="mb-1">{{ new.0 }}</p>
+  </a>
+  </br>
+  {% endfor %}
+</div>
+
+</div>
+
+{% endblock content%}
