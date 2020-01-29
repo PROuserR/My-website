@@ -12,4 +12,5 @@ urlpatterns = [
     path('edit_answer/<int:id>', views.edit_answer, name='edit_answer'),
     path('add_answer/<int:id>', views.add_answer, name='add_answer'),
     path('add_question/', views.add_question, name='add_question'),
+    path('butwhy/', views.butwhy, name='butwhy')
 ]

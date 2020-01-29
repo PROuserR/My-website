@@ -1,23 +1,45 @@
-from django.shortcuts import render, reverse
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, reverse, redirect
 from bio.models import Question, Answer
 from .froms import QuestionForm, AnswerForm
-import os, bs4, requests, urllib, re
+from django.contrib.auth.decorators import login_required
+import time, bs4, requests, urllib, re, os
 
 # Create your views here.
 
 def overview(request):
-    return render(request, 'overview.html')
+    year = time.localtime().tm_year
+    month = time.localtime().tm_mon
+    if not month > 11:
+            year -= 1
+    shai_age = year - 1991
+    context = {'shai_age': shai_age}
+    return render(request, 'overview.html', context)
 
 
 def personality(request):
-    return render(request, 'personality.html')
+        if request.method == 'POST':
+           url = 'https://www.celebrities-galore.com/index.php?id=517'
+           data = {'CelebID': '287718', 'CelebFileName': 'shailene-woodley', 'CommonName': request.POST['name']
+           , 'Gender': request.POST['gender'], 'monthDOB': request.POST['month'], 
+           'dayDOB': request.POST['day'], 'yearDOB': request.POST['year']}
+           req = requests.post(url, data=data)
+           soup = bs4.BeautifulSoup(req.text)
+           ps = soup.select('p')
+           fetcheData = []
+           for p in ps:
+                p = str(p.getText())
+                fetcheData.append(p)
+           context = {'fetcheData': fetcheData}
+           return render(request, 'compatibility.html', context)
+        else:
+           return render(request, 'personality.html')
 
 
 def trailers(request):
     return render(request, 'trailers.html')
 
 
+@login_required
 def faq(request):
         answers = Answer.objects.order_by('date_added')
         q = Question.objects.order_by('date_added')
@@ -34,6 +56,7 @@ def faq(request):
         return render(request, 'faq.html', context)
 
 
+@login_required
 def edit_answer(request, id):
         answer = Answer.objects.get(id=id)
         
@@ -45,12 +68,13 @@ def edit_answer(request, id):
         if form.is_valid():
                 answer.text = answer.text + '\n' + request.POST['text']
                 answer.save()
-                return HttpResponseRedirect(reverse('bio:faq'))
+                return redirect('bio:faq')
 
         context = {'answer':answer, 'form':form}
         return render(request, 'edit_answer.html', context)
 
 
+@login_required
 def add_answer(request, id):
         question = Question.objects.get(id=id)
         if request.method != 'POST':
@@ -62,20 +86,23 @@ def add_answer(request, id):
                         new_answer = form.save(commit=False)
                         new_answer.question = question
                         new_answer.save()
-                return HttpResponseRedirect(reverse('bio:faq'))
+                return redirect('bio:faq')
 
         context = {'question':question, 'form':form}
         return render(request, 'add_answer.html', context)
 
 
+@login_required
 def add_question(request):
         if request.method != 'POST':
                 form = QuestionForm()
         else:
                 form = QuestionForm(data=request.POST)
                 if form.is_valid():
-                        form.save()
-                        return HttpResponseRedirect(reverse('bio:faq'))
+                        new_question = form.save(commit=False)
+                        new_question.owner = request.user
+                        new_question.save()
+                        return redirect('bio:faq')
 
         context = {'form':form}
         return render(request, 'add_question.html', context)
@@ -123,3 +150,7 @@ def movies(request):
 
     context = {'data':data}
     return render(request, 'movies.html', context)
+
+
+def butwhy(request):
+    return render(request, 'butwhy.html')
