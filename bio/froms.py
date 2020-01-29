@@ -15,4 +15,4 @@ class AnswerForm(forms.ModelForm):
         model = Answer
         fields = ['text']
         labels = {'text': ''}
-        widgets = {'text': forms.Textarea(attrs={'cols': 60})}
+        widgets = {'text': forms.Textarea(attrs={'cols': 40})}

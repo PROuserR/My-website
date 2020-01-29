@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+<div class="shadow p-3 mb-5 bg-white rounded" style="display: inline-block;width: 75%;">
+
+    <form method="POST" action="{% url 'users:register' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        
+        <button name="submit" class="btn btn-outline-primary btn-lg">Register</button>
+        <input type="hidden" name="next" value="{% url 'index:index' %}">
+    </form>
+</div>
+
+{% endblock content%}

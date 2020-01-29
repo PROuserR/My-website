@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+
+<div class="shadow p-3 mb-5 bg-white rounded" style="display: inline-block;width: 75%;">
+    <h1 class="animated infinite bounce delay-1s"><b>Blogs:</b></h1>
+
+    <div class="animated rollIn delay-0s">
+    {% for blog in blogs %}
+    
+        <a href="{% url 'blog:blog' blog.id %}">Go to >></a>
+    
+        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample{{ blog.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <b>{{blog}}</b> <i>Created in:{{blog.date_added}} By: {{blog.owner}}</i>
+        </a>
+        <br>
+        <div class="collapse" id="collapseExample{{ blog.id }}">
+          <div class="card card-body">
+              {% for entry in blog.entry_set.all %}
+                {{ entry }}
+                <hr>
+                {% empty %}
+                <p style="color: red;"><i>None available !</i></p>
+              {% endfor %}
+          </div>
+        </div>
+        {% empty %}
+        <p style="color: red;"><i>None available !</i></p>
+    {% endfor %}
+    </div>
+    
+    <br>
+    <a href="{% url 'blog:new_blog' %}" class="btn btn-outline-primary btn-lg">
+        Add New Blog
+    </a>  
+</div>
+      
+
+{% endblock content %}
