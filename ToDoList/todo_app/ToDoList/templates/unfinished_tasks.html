@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<ul class="nav nav-pills nav-fill">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'ToDoList:index' %}">Daily Program</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'ToDoList:finished_tasks' %}">Finished tasks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Unfinished tasks</a>
+  </li>
+</ul>
+<br>
+{% for unfinished_task in unfinished_tasks %}
+<div class="list-group" data-toggle="tooltip" data-placement="bottom" title="Note:{{unfinished_task.note}}">
+  <a href="{% url 'ToDoList:edit_task' unfinished_task.id %}" class="list-group-item list-group-item-action">
+    <div class="d-flex w-100 justify-content-between">
+      <h5 class="mb-1">{{unfinished_task.title}}</h5>
+      <small>{{unfinished_task.date_added}}</small>
+    </div>
+    <small>High piority:{{unfinished_task.high_priority}}</small>
+
+    <form action="{% url 'ToDoList:index' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="id" value="{{unfinished_task.id}}">
+      <button name="submit" class="btn btn-primary btn-lg" value="finished">Finish</button>
+    </form>
+  </a>
+</div>
+{% empty %}
+<h1>No tasks have been added</h1>
+<br>
+{% endfor %}
+
+{% endblock content %}
