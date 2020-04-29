@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if form.erros %}
+<p>Your username and password do not match!</p>
+{% endif %}
+
+<form action="{% url 'Users:login' %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <button name="submit" class="btn btn-outline-primary btn-lg">Log in</button>
+    <input type="hidden" name="next" value="{% url 'ToDoList:index' %}" />
+</form>
+
+{% endblock content %}

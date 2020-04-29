@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form action="{% url 'Users:register' %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button name="submit" class="btn btn-outline-primary btn-lg">Registration</button>
+    <input name="next" type="hidden" value="{% url 'ToDoList:index' %}"> 
+</form>
+{% endblock %}
