@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+
+<div class="shadow p-3 mb-5 bg-white rounded" style="display: inline-block;width: 75%">
+  
+    <h1><b>Answered questions:</b></h1>
+    <div class="list-group">
+      {% for answer in answers %}
+      <div class="animated rollIn delay-0s">
+        <a href="{% url 'bio:edit_answer' answer.id %}" class="list-group-item list-group-item-action">
+          <div class="d-flex w-100 justify-content-between">
+            <h4 class="mb-1">{{answer.question}} <small>By: {{ answer.question.owner }}</small></h4>
+            <small class="text-muted">Answered in {{answer.date_added}}</small>
+          </div>
+          <p class="mb-1">{{answer.text}}</p>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+    <hr>
+    <div class="list-group">
+      {% if questions%}
+      <h1><b>Non answered questions:</b></h1>
+      {% endif %}
+        {% for question in questions %}
+          <a href="{% url 'bio:add_answer' question.id %}" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h4 class="mb-1">{{question.title}}</h4>
+              <small class="text-muted">Asked in {{question.date_added}}</small>
+            </div>
+            <p class="mb-1">Not answered question!</p>
+          </a>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'bio:add_question' %}">
+      <button type="button" name="submit" class="btn btn-outline-info btn-lg">Add question</button>
+  </a>
+</div>
+{% endblock %}

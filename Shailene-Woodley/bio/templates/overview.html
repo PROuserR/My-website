@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+
+<div class="animated bounceInDown">
+        <div class="jumbotron" class="shadow p-3 mb-5 bg-white rounded" style="display: inline-block;width: 75%">
+                <h1 class="display-4">Shailene woodley</h1>
+                <p class="lead">
+                        Shailene Diann Woodley is an American actress and activist. Brought up in Simi Valley, 
+                        California, Woodley began modeling at the age of 4 and began acting professionally in minor 
+                        television roles.    
+                </p>
+                <hr class="my-4">
+                <p>
+                        Born: November 15, 1991 (age {{shai_age}} years), San Bernardino County, California, United States
+                        <br />
+                        Height: 5′ 8″
+                        <br />
+                        Nationality: American
+                        <br />
+                        Awards: MTV Movie Award for Best Kiss
+                        <br />
+                        Parents: Lori Woodley, Loni Woodley
+                </p>
+                <a class="btn btn-primary btn-lg" href="{% url 'bio:personality' %}" role="button">Learn more</a>
+            </div>
+            
+
+</div>
+{% endblock %}

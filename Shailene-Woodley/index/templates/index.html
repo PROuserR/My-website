@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content%}
+{% load static %}
+
+<br>
+<div class="shadow p-3 mb-5 bg-white rounded" style="display: inline-block;width: 75%">
+    <h1 class="animated infinite bounce delay-1s"><b>Meet her The actress Shailene Woodley</b></h1>
+
+    <a id='-XHCeUIHTCRV6Z0n7Mfe2A' class='gie-single' href='http://www.gettyimages.ae/detail/848668790' target='_blank' style='color:#a7a7a7;text-decoration:none;font-weight:normal !important;border:none;display:inline-block;'>Embed from Getty Images</a><script>window.gie=window.gie||function(c){(gie.q=gie.q||[]).push(c)};gie(function(){gie.widgets.load({id:'-XHCeUIHTCRV6Z0n7Mfe2A',sig:'LnWqJI-wwwTtrgC-WY0MRgIqTooV8ESJLRbgm-XZhDY=',w:'420px',h:'594px',items:'848668790',caption: true ,tld:'ae',is360: false })});</script><script src='//embed-cdn.gettyimages.com/widgets.js' charset='utf-8' async></script>
+
+    <hr>
+    <img src="{% static 'news.svg'%}" height="25%" width="25%">
+
+<div class="list-group">
+
+    {% for new in news %}
+    <div class="animated rollIn delay-2s">
+      <a href="{{ new.link }}" class="list-group-item list-group-item-action">
+    
+        <div class="d-flex w-100 justify-content-between">
+          <h4>{{ new.title }}</h4>
+          <small class="text-muted">{{ new.date }}</small>
+        </div>
+        <p class="mb-1">{{ new.desc }}</p>
+      </a>
+      </br>
+    </div>
+
+  {% endfor %}
+
+</div>
+
+
+
+
+
+
+</div>
+
+{% endblock content%}

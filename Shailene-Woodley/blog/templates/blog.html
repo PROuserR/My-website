@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<br>
+<div class="shadow p-3 mb-5 bg-white rounded" style="display: inline-block;width: 75%;">
+
+    <h1>Blog: {{blog}}</h1>
+    {% static "" as baseUrl %}
+
+    {% for entry in entries %}
+    <div class="animated rollIn delay-0s">
+      <div class="card" style="width: 50%;display: inline-block;background-color: pink;">
+            
+        <img src="{{ baseUrl }}{{ entry.image.name }}"  alt="No image posted!" width="50%">
+        <div class="card-body">
+          <h5 class="card-title">{{entry.date_added|date:'M d, Y H:i'}} By:{{ blog.owner }}</h5>
+          <p class="card-text">{{entry.text|linebreaks}}</p>
+          <p>Comments:</p>
+          <ul class="list-group list-group-flush">
+            {% for comment in entry.comment_set.all %}
+                <li class="list-group-item">{{comment}}</li>
+            {% endfor %}
+          </ul>
+          <br>
+          <form action="{% url 'blog:blog' blog.id %}" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="hidden" name="entry_id" value="{{entry.id}}">
+            <button type="submit" class="btn btn-outline-primary btn-lg">Comment</button>
+        </form>
+        </div>
+      </div>
+    </div>
+    <br><br>
+    {% endfor%}
+
+    <a href="{% url 'blog:new_entry' blog.id %}"  class="btn btn-outline-primary btn-lg">
+      Add New Entry
+    </a>
+
+</div>
+{% endblock content %}

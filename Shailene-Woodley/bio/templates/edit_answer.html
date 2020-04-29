@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br>
+
+<div class="shadow p-3 mb-5 bg-white rounded" style="display: inline-block;width: 75%">
+
+<h1>Answer a question:</h1>
+<form action="{% url 'bio:edit_answer' answer.id %}" method='post'>
+{% csrf_token %}
+{{ form.as_p }}
+<button name='submit' class="btn btn-outline-primary btn-lg">Answer</button>
+</form>
+</div>
+
+{% endblock %}
