@@ -1,0 +1,5 @@
+django
+GoogleNews
+bs4
+requests
+Pillow
