@@ -15,15 +15,25 @@
 </ul>
 <br>
 {% for finished_task in finished_tasks %}
-<div class="list-group" data-toggle="tooltip" data-placement="bottom" title="Note:{{finished_task.note}}">
-  <a href="{% url 'ToDoList:edit_task' finished_task.id %}" class="list-group-item list-group-item-action active">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">{{finished_task.title}}</h5>
-      <small>{{finished_task.date_added}}</small>
-    </div>
-    <small>High priority:{{finished_task.high_priority}}</small>
-  </a>
-</div>
+{% if finished_task.high_priority %}
+<a href="{% url 'ToDoList:edit_task' finished_task.id %}" class="list-group-item list-group-item-danger">
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">{{finished_task.title}}</h5>
+    <small>{{finished_task.date_added}}</small>
+  </div>
+  <small>High piority:{{finished_task.high_priority}}</small>
+
+</a>
+{% else %}
+<a href="{% url 'ToDoList:edit_task' finished_task.id %}" class="list-group-item list-group-item-action">
+  <div class="d-flex w-100 justify-content-between">
+    <h5 class="mb-1">{{finished_task.title}}</h5>
+    <small>{{finished_task.date_added}}</small>
+  </div>
+  <small>High piority:{{finished_task.high_priority}}</small>
+
+</a>
+{% endif %}
 <br>
 {% empty %}
 <h1>No tasks have been added</h1>

@@ -10,7 +10,7 @@ import time
 def index(request):
     if request.user.is_authenticated:
         if request.method != 'POST':
-            daily_tasks = Task.objects.filter(owner=request.user, daily=True)
+            daily_tasks = Task.objects.filter(owner=request.user, daily=True).order_by('-high_priority')
 
             if len(daily_tasks) > 0:
                 now = datetime.datetime(
@@ -44,9 +44,7 @@ def index(request):
 
 @login_required
 def unfinished_tasks(request):
-    unfinished_tasks = Task.objects.filter(owner=request.user, finished=False, daily=False).order_by(
-        "date_added"
-    )
+    unfinished_tasks = Task.objects.filter(owner=request.user, finished=False, daily=False).order_by('-high_priority')
     if request.method == 'POST':
         task = Task.objects.get(id=request.POST.get("id"))
         task.delete()
@@ -58,9 +56,7 @@ def unfinished_tasks(request):
 
 @login_required
 def finished_tasks(request):
-    finished_tasks = Task.objects.filter(owner=request.user, finished=True, daily=False).order_by(
-        "date_added"
-    )
+    finished_tasks = Task.objects.filter(owner=request.user, finished=True, daily=False).order_by('-high_priority')
     context = {"finished_tasks": finished_tasks}
     return render(request, "finished_tasks.html", context)
 
