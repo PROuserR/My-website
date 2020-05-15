@@ -3,12 +3,22 @@ from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from .models import Task
 from .forms import TaskForm, NewTaskForm
+from random import choice
 import datetime
 import time
 
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
+        link = 'https://www.verywellmind.com/things-you-can-do-to-improve-your-mental-focus-4115389'
+        tips = ['Start by Assessing Your Mental Focus',
+                'Eliminate Distractions',
+                'Focus on One Thing at a Time',
+                'Live in the Moment',
+                'Practice Mindfulness',
+                'Try Taking a Short Break',
+                'Keep Practicing to Strengthen Your Focus']
+
         if request.method != 'POST':
             daily_tasks = Task.objects.filter(owner=request.user, daily=True).order_by('-high_priority')
 
@@ -31,7 +41,9 @@ def index(request):
                 daily_average = None
 
             context = {'daily_tasks': daily_tasks,
-                       'daily_average': daily_average}
+                       'daily_average': daily_average,
+                       'link': link,
+                       'tips': choice(tips)}
             return render(request, "index.html", context)
         else:
             daily_task = Task.objects.get(id=request.POST.get('id'))

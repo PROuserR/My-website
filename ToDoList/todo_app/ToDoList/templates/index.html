@@ -3,7 +3,9 @@
 {% block content %}
 
 {% if user.is_authenticated %}
-
+<h1>Protip:</h1>
+<a href="{{link}}">{{tips}}</a>
+<hr>
 <ul class="nav nav-pills nav-fill">
   <li class="nav-item">
     <a class="nav-link active" href="#">Daily Program</a>
