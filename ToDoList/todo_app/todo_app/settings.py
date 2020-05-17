@@ -25,7 +25,7 @@ SECRET_KEY = '+zwqa-b*w2rki(u0)(eq615=_*j)if_3=1q+&z50*uk1!dba!z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [' PROuserR.pythonanywhere.com']
 
 
 # Application definition
@@ -39,6 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ToDoList',
     'Users',
+    #Google auth
+    'django.contrib.sites', 
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
 ]
 
 MIDDLEWARE = [
@@ -68,6 +75,14 @@ TEMPLATES = [
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
 
 WSGI_APPLICATION = 'todo_app.wsgi.application'
 
@@ -126,3 +141,4 @@ STATICFILES_DIRS = [
 ]
 LOGIN_URL = 'Users:login'
 LOGOUT_REDIRECT_URL = "ToDoList:index"
+SITE_ID = 1
