@@ -7,17 +7,20 @@ from random import choice
 import datetime
 import time
 
+#These vars are global to be used by funcs that view your tasks
+link = 'https://www.verywellmind.com/things-you-can-do-to-improve-your-mental-focus-4115389'
+tips = ['Start by Assessing Your Mental Focus',
+        'Eliminate Distractions',
+        'Focus on One Thing at a Time',
+        'Live in the Moment',
+        'Practice Mindfulness',
+        'Try Taking a Short Break',
+        'Keep Practicing to Strengthen Your Focus']
+
+
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
-        link = 'https://www.verywellmind.com/things-you-can-do-to-improve-your-mental-focus-4115389'
-        tips = ['Start by Assessing Your Mental Focus',
-                'Eliminate Distractions',
-                'Focus on One Thing at a Time',
-                'Live in the Moment',
-                'Practice Mindfulness',
-                'Try Taking a Short Break',
-                'Keep Practicing to Strengthen Your Focus']
 
         if request.method != 'POST':
             daily_tasks = Task.objects.filter(owner=request.user, daily=True).order_by('-high_priority')
@@ -54,6 +57,10 @@ def index(request):
         return render(request, "index.html")
 
 
+def accounts_profile(request):
+    return redirect('ToDoList:index')
+
+
 @login_required
 def unfinished_tasks(request):
     unfinished_tasks = Task.objects.filter(owner=request.user, finished=False, daily=False).order_by('-high_priority')
@@ -62,14 +69,16 @@ def unfinished_tasks(request):
         task.delete()
         return redirect("ToDoList:unfinished_tasks")
 
-    context = {"unfinished_tasks": unfinished_tasks}
+    context = {"unfinished_tasks": unfinished_tasks, 
+                'tips': choice(tips)}
     return render(request, "unfinished_tasks.html", context)
 
 
 @login_required
 def finished_tasks(request):
     finished_tasks = Task.objects.filter(owner=request.user, finished=True, daily=False).order_by('-high_priority')
-    context = {"finished_tasks": finished_tasks}
+    context = {"finished_tasks": finished_tasks, 
+                'tips': choice(tips)}
     return render(request, "finished_tasks.html", context)
 
 

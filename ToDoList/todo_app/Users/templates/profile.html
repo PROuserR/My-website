@@ -22,12 +22,17 @@
   </div>
   <div class="tab-pane" id="profile" role="tabpanel">
     {% if finished_tasks_len > 0 %}
+  
+    <var id="x_values" hidden="true">{{x_values}}</var>
+    <var id="y_values" hidden="true">{{y_values}}</var>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script src="{% static 'js/chart.js' %}"></script>
     {% if well_done %}
     <div class="alert alert-success" role="alert" style="background-color: limegreen;">
       <h4 class="alert-heading">Well done!</h4>
       <p>It looks like your making progress,keep on!</p>
 
-      <img src="{% static 'img/figure.png' %}" class="img-fluid" onmouseover="func()">
       <hr>
       <b>Average : {{average}}</b>
     </div>
@@ -35,7 +40,6 @@
     <div class="alert alert-danger" role="alert" style="background-color: red;">
       <h4 class="alert-heading">Oops</h4>
       <p>It looks like your not making progress,try harder!</p>
-      <img src="{% static 'img/figure.png' %}" class="img-fluid">
       <hr>
       <b>Average : {{average}}</b>
       <br>
@@ -48,7 +52,8 @@
     </div>
     {% endif %}
     {% else %}
-    <h1>You need to finish some tasks!</h1>
+    <h1>No tasks have been added</h1>
+    <a href="{% url 'ToDoList:new_task' %}">Let's add a task</a>
     {% endif %}
   </div>
 </div>

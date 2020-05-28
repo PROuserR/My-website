@@ -3,7 +3,6 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.apps import apps
-import matplotlib.pyplot as plt
 import datetime
 import time
 
@@ -57,12 +56,13 @@ def profile(request):
             else:
                 progress[date] = 0
         # Since the data now is ready we will show it in the user page
-        fig, ax = plt.subplots()
+        """         fig, ax = plt.subplots()
         ax.set_title('Progress since your account has created!')
         ax.set_xlabel('Time')
         ax.set_ylabel('Finished tasks')
         ax.plot(list(progress.keys()), list(progress.values()))
-        plt.savefig('Users/static/img/figure.png', bbox_inches='tight')
+        plt.savefig('Users/static/img/figure.png', bbox_inches='tight') """
+        
         task_sum = 0
         for task in progress.values():
             task_sum += task
@@ -75,7 +75,8 @@ def profile(request):
         last_task = tasks.last()
 
         context = {'finished_tasks_len': finished_tasks_len,
-                   'average': average, 'well_done': well_done, 'last_task': last_task}
+                   'average': average, 'well_done': well_done, 'last_task': last_task,
+                   'x_values': list(progress.keys()), 'y_values': list(progress.values())}
         return render(request, 'profile.html', context)
     else:
         context = {'finished_tasks_len': finished_tasks_len}

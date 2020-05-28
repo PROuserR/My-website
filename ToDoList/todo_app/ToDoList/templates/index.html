@@ -66,9 +66,10 @@
 <br>
 {% empty %}
 <h1>No tasks have been added</h1>
+<a href="{% url 'ToDoList:new_task' %}">Let's add a task</a>
 <br>
 {% endfor %}
-
+<!------------------------------------------------------------------------------------>
 {% else %}
 <div class="jumbotron">
 
