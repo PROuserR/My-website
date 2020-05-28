@@ -65,7 +65,7 @@ def profile(request):
             else:
                 well_done = False
         except ZeroDivisionError:
-            well_done = "Not enough info"
+            well_done = False
 
         average = f'{task_sum} task(s) per {len(progress.keys())} day(s)'
 
