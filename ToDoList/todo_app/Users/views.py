@@ -55,15 +55,8 @@ def profile(request):
                     now.year, now.month, i + date_joined.day)]
             else:
                 progress[date] = 0
-        # Since the data now is ready we will show it in the user page
-        """         fig, ax = plt.subplots()
-        ax.set_title('Progress since your account has created!')
-        ax.set_xlabel('Time')
-        ax.set_ylabel('Finished tasks')
-        ax.plot(list(progress.keys()), list(progress.values()))
-        plt.savefig('Users/static/img/figure.png', bbox_inches='tight') """
         
-        task_sum = 0
+        task_sum = 1
         for task in progress.values():
             task_sum += task
         if task_sum/len(progress.keys()) >= 1:
