@@ -56,13 +56,17 @@ def profile(request):
             else:
                 progress[date] = 0
         
-        task_sum = 1
+        task_sum = 0
         for task in progress.values():
             task_sum += task
-        if task_sum/len(progress.keys()) >= 1:
-            well_done = True
-        else:
-            well_done = False
+        try:
+            if task_sum/len(progress.keys()) >= 1:
+                well_done = True
+            else:
+                well_done = False
+        except ZeroDivisionError:
+            pass
+
         average = f'{task_sum} task(s) per {len(progress.keys())} day(s)'
 
         last_task = tasks.last()
