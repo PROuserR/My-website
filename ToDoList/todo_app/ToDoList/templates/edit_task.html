@@ -15,7 +15,7 @@
     <form action="{% url 'ToDoList:edit_task' task.id%}" method="POST">
       {% csrf_token %}
       <button name="submit" class="btn btn-danger btn-lg" value="Remove">Remove</button>
-      <input type="hidden" name="id" value="{{daily_task.id}}">
+      <input type="hidden" name="id" value="{{weekly_task.id}}">
     </form>
   </a>
 </div>

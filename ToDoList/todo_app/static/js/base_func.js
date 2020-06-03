@@ -2,6 +2,14 @@
 var inputs = document.getElementsByTagName("input");
 var textareas = document.getElementsByTagName("textarea")
 var selects = document.getElementsByTagName("select")
+var buttons = document.getElementsByTagName("button")
+
+for(var i = 0; i < buttons.length; i++){
+    if(buttons[i].innerHTML == "Sign In")
+    {
+        buttons[i].className = "btn btn-primary btn-lg"
+    }
+}
 
 for (var i = 0; i < inputs.length; i++) {
     inputs[i].className = "form-control"

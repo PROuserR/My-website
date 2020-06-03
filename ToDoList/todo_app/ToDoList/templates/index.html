@@ -8,7 +8,7 @@
 <hr>
 <ul class="nav nav-pills nav-fill">
   <li class="nav-item">
-    <a class="nav-link active" href="#">Daily Program</a>
+    <a class="nav-link active" href="#">Weekly Program</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{% url 'ToDoList:finished_tasks' %}">Finished tasks</a>
@@ -18,57 +18,30 @@
   </li>
 </ul>
 <br>
-{% for daily_task in daily_tasks %}
-<div class="list-group" data-toggle="tooltip" data-placement="bottom" title="Note:{{daily_task.note}}">
-  {% if not daily_task.finished %}
-    {% if daily_task.high_priority %}
-    <a href="{% url 'ToDoList:edit_task' daily_task.id %}" class="list-group-item list-group-item-danger">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{daily_task.title}}</h5>
-        <small>{{daily_task.date_added}}</small>
-      </div>
-      <p class="mb-1">You need to finish this taks!</p>
-      <small>High piority:{{daily_task.high_priority}}</small>
-  
-      <form action="{% url 'ToDoList:index' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="id" value="{{daily_task.id}}">
-        <button name="submit" class="btn btn-primary btn-lg" value="finished">Finish</button>
-      </form>
-    </a>
-    {% else %}
-    <a href="{% url 'ToDoList:edit_task' daily_task.id %}" class="list-group-item list-group-item-action">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{daily_task.title}}</h5>
-        <small>{{daily_task.date_added}}</small>
-      </div>
-      <p class="mb-1">You need to finish this taks!</p>
-      <small>High piority:{{daily_task.high_priority}}</small>
-  
-      <form action="{% url 'ToDoList:index' %}" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="id" value="{{daily_task.id}}">
-        <button name="submit" class="btn btn-primary btn-lg" value="finished">Finish</button>
-      </form>
-    </a>
-    {% endif %}
-  {% else %}
-  <a href="{% url 'ToDoList:edit_task' daily_task.id %}" class="list-group-item list-group-item-action active">
-    <div class="d-flex w-100 justify-content-between">
-      <h5 class="mb-1">{{daily_task.title}}</h5>
-      <small>{{daily_task.date_added}}</small>
-    </div>
-    <p class="mb-1">This task is finished!</p>
-    <small>High piority:{{daily_task.high_priority}}</small>
-  </a>
-  {% endif %}
-</div>
+<!--Vars for fullcalendar.js-->
+<var id="weekly_tasks" hidden="true">{{weekly_tasks}}</var>
+<var id="weekly_tasks_date_added" hidden="true">{{weekly_tasks_date_added}}</var>
+<var id="weekly_tasks_id" hidden="true">{{weekly_tasks_id}}</var>
+<var id="weekly_tasks_high_priority" hidden="true">{{weekly_tasks_high_priority}}</var>
+<h1>Weekly average:{{weekly_average}}</h1>
+<hr>
+<link href='https://use.fontawesome.com/releases/v5.0.6/css/all.css' rel='stylesheet'>
+<link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' rel='stylesheet' />
+
+<link href="{% static 'css/fullcalendar/core/main.css' %}" rel='stylesheet'>
+<link href="{% static 'css/fullcalendar/list/main.css'%}" rel="stylesheet">
+<link href="{% static 'css/fullcalendar/daygrid/main.css'%}" rel="stylesheet">
+<link href="{% static 'css/fullcalendar/bootstrap/main.css' %}" rel="stylesheet">
+
+<script src="{% static 'js/fullcalendar/core/main.js' %}"></script>
+<script src="{% static 'js/fullcalendar/list/main.js'%}"></script>
+<script src="{% static 'js/fullcalendar/daygrid/main.js'%}"></script>
+<script src="{% static 'js/fullcalendar/bootstrap/main.js'%}"></script>
+
+<script src="{% static 'js/calendar.js' %}"></script>
+
+<div id='calendar'></div>
 <br>
-{% empty %}
-<h1>No tasks have been added</h1>
-<a href="{% url 'ToDoList:new_task' %}">Let's add a task</a>
-<br>
-{% endfor %}
 <!------------------------------------------------------------------------------------>
 {% else %}
 <div class="jumbotron">
@@ -93,7 +66,7 @@
         <div class="card-body">
           <ol>
             <li>Able to create tasks and manage them</li>
-            <li>Make your daily program to include every task you do everyday</li>
+            <li>Make your weekly program to include every task you do everyday</li>
             <li>Provide statistics to show your progress</li>
             <li>User account system</li>
           </ol>
@@ -112,9 +85,9 @@
       </div>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
         <div class="card-body">
-          This app has two kind of tasks daily and non-daily,when you add a task you can mark it as daily or not.
+          This app has two kind of tasks weekly and non-weekly,when you add a task you can mark it as weekly or not.
           Then you provide some additional information which is optional.Finally you can view the tasks and
-          there are splitted into three sorts finished,unfinished and daily!
+          there are splitted into three sorts finished,unfinished and weekly!
         </div>
       </div>
     </div>
@@ -146,7 +119,7 @@
     </div>
   </div>
   <br>
-  <a class="btn btn-primary btn-lg"  href="{% url 'Users:register' %}">Register</a>
+  <a class="btn btn-primary btn-lg" href="{% url 'Users:register' %}">Register</a>
 </div>
 {% endif %}
 

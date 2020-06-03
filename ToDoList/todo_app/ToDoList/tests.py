@@ -4,8 +4,8 @@ from .models import Task
 # Create your tests here.
 class TaskTest(TestCase):
 
-    def test_daily_finished(self):
-        tasks = Task.objects.filter(daily=True)
+    def test_weekly_finished(self):
+        tasks = Task.objects.filter(weekly=True)
 
         for task in tasks:
             if task.finished:

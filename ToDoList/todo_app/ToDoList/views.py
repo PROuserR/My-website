@@ -21,37 +21,57 @@ tips = ['Start by Assessing Your Mental Focus',
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
-
         if request.method != 'POST':
-            daily_tasks = Task.objects.filter(owner=request.user, daily=True).order_by('-high_priority')
-
-            if len(daily_tasks) > 0:
+            weekly_tasks = Task.objects.filter(owner=request.user, weekly=True).order_by('-high_priority')
+            if len(weekly_tasks) > 0:
                 now = datetime.datetime(
                     time.localtime().tm_year, time.localtime().tm_mon, time.localtime().tm_mday)
                 
 
-                for daily_task in daily_tasks:
-                    if daily_task.date_added.day != now.day:
-                        daily_task.date_added = now
-                        daily_task.finished = False
-                        daily_task.save()
-
-                finished_daily_tasks = list(
-                    filter(lambda task: task.finished == True, daily_tasks))
-                daily_average = f'{100 * len(finished_daily_tasks)/ len(daily_tasks)}%'
+                finished_weekly_tasks = list(
+                    filter(lambda task: task.finished == True, weekly_tasks))
+                weekly_average = f'{100 * len(finished_weekly_tasks)/ len(weekly_tasks)}%'
             else:
-                daily_tasks = None
-                daily_average = None
+                weekly_tasks = None
+                weekly_average = None
+            #Vars for fullcalendar.js
 
-            context = {'daily_tasks': daily_tasks,
-                       'daily_average': daily_average,
+            weekly_tasks_date_added = []
+            for weekly_task in weekly_tasks:
+                #add zeros before month and day so fullcalendar can render them
+                year = str(weekly_task.date_added.year)
+                month = str(weekly_task.date_added.month)
+                day = str(weekly_task.date_added.day)
+                hour = str(weekly_task.date_added.hour)
+                minute = str(weekly_task.date_added.minute)
+                second = str(weekly_task.date_added.second)
+                #We need to put zeroes before the number so fullcalendar can accpect it
+                if int(month) < 10:
+                    month = f'0{month}'
+                if int(day) < 10:
+                    day = f'0{day}'
+                if int(hour) < 10:
+                    hour = f'0{hour}'
+                if int(minute) < 10:
+                    minute = f'0{minute}'
+                if int(second) < 10:
+                    second = f'0{second}'
+
+                date_added = f'{year}-{month}-{day}T{hour}:{minute}:{second}'
+                weekly_tasks_date_added.append(date_added)
+
+            context = {'weekly_tasks': [weekly_task.title for weekly_task in weekly_tasks],
+                       'weekly_tasks_date_added': weekly_tasks_date_added,
+                       'weekly_tasks_id': [weekly_task.id for weekly_task in weekly_tasks],
+                       'weekly_tasks_high_priority': [weekly_task.high_priority for weekly_task in weekly_tasks],
+                       'weekly_average': weekly_average,
                        'link': link,
                        'tips': choice(tips)}
             return render(request, "index.html", context)
         else:
-            daily_task = Task.objects.get(id=request.POST.get('id'))
-            daily_task.finished = True
-            daily_task.save()
+            weekly_task = Task.objects.get(id=request.POST.get('id'))
+            weekly_task.finished = True
+            weekly_task.save()
             return redirect('ToDoList:index')
     else:
         return render(request, "index.html")
@@ -63,7 +83,7 @@ def accounts_profile(request):
 
 @login_required
 def unfinished_tasks(request):
-    unfinished_tasks = Task.objects.filter(owner=request.user, finished=False, daily=False).order_by('-high_priority')
+    unfinished_tasks = Task.objects.filter(owner=request.user, finished=False, weekly=False).order_by('-high_priority')
     if request.method == 'POST':
         task = Task.objects.get(id=request.POST.get("id"))
         task.delete()
@@ -76,7 +96,7 @@ def unfinished_tasks(request):
 
 @login_required
 def finished_tasks(request):
-    finished_tasks = Task.objects.filter(owner=request.user, finished=True, daily=False).order_by('-high_priority')
+    finished_tasks = Task.objects.filter(owner=request.user, finished=True, weekly=False).order_by('-high_priority')
     context = {"finished_tasks": finished_tasks, 
                 'tips': choice(tips)}
     return render(request, "finished_tasks.html", context)

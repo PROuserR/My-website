@@ -9,7 +9,7 @@ class Task(models.Model):
     finished = models.BooleanField(default=False)
     date_added = models.DateTimeField(auto_now_add=True)
     high_priority = models.BooleanField(default=False)
-    daily = models.BooleanField(default=False)
+    weekly = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     
 
