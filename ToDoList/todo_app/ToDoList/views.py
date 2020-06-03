@@ -30,7 +30,7 @@ def index(request):
 
                 finished_weekly_tasks = list(
                     filter(lambda task: task.finished == True, weekly_tasks))
-                weekly_average = f'{100 * len(finished_weekly_tasks)/ len(weekly_tasks)}%'
+                weekly_average = f'{100 * len(finished_weekly_tasks)// len(weekly_tasks)}%'
             else:
                 weekly_tasks = None
                 weekly_average = None
