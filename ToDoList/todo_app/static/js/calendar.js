@@ -64,12 +64,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
   var calendar = new FullCalendar.Calendar(calendarEl, {
     plugins: [ 'dayGrid', 'timeGrid', 'list', 'bootstrap' ],
+    customButtons: {
+      newTaskButton: {
+        text: 'New Task +',
+        click: function() {
+          window.location.replace("/new_task/")
+        }
+      }
+    },
     timeZone: 'UTC',
     themeSystem: 'bootstrap',
     header: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+      right: 'dayGridMonth,listMonth'
+    },
+    footer:{
+      right: 'newTaskButton'
     },
     events: my_events
   });

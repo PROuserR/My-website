@@ -149,7 +149,8 @@ def search_results(request):
     search_query = request.POST.get("search")
     tasks = []
     for task in Task.objects.filter(owner=request.user):
-        if search_query in task.title:
+
+        if search_query.upper() in task.title.upper():
             tasks.append(task)
 
     context = {"tasks": tasks}

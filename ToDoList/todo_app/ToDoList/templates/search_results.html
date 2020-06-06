@@ -3,7 +3,11 @@
 {% block content %}
 
     {% for task in tasks %}
-        {{task.title}}
-        <br>
+    {% if task.high_priority %}
+    <a href="{% url 'ToDoList:edit_task' task.id %}" class="btn btn-danger btn-lg btn-block">{{task.title}}</a>        
+    {% else %}
+    <a href="{% url 'ToDoList:edit_task' task.id %}" class="btn btn-primary btn-lg btn-block">{{task.title}}</a>        
+    {% endif %}
+    <br>
     {% endfor %}
 {% endblock content %}
