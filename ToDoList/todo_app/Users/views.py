@@ -33,7 +33,7 @@ def profile(request):
         time.localtime().tm_year, time.localtime().tm_mon, time.localtime().tm_mday)
 
     tasks = Task.objects.filter(
-        owner=request.user, finished=True, weekly=False)
+        owner=request.user, finished=True)
     finished_tasks_len = len(tasks)
     if finished_tasks_len > 0:
         # Fetching required data from imported models for doing some data visualization

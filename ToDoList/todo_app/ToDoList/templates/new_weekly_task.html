@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add a new weekly task below:</h1>
+
+<form action="{% url 'ToDoList:new_weekly_task' %}" method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button name="submit" class="btn btn-outline-secondary btn-lg">Add weekly task</button>
+</form>
+{% endblock content %}

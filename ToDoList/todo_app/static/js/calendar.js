@@ -1,47 +1,47 @@
 //Process data coming the django template index.html to able to read it in javascript
-var weekly_tasks_str = String(document.getElementById('weekly_tasks').textContent);
-var weekly_tasks = weekly_tasks_str.replace('[', '').replace(']', '');
-for (let i = 0; i < weekly_tasks.length; i++) {
-    weekly_tasks = weekly_tasks.replace("'", '')
+var tasks_str = String(document.getElementById('tasks').textContent);
+var tasks = tasks_str.replace('[', '').replace(']', '');
+for (let i = 0; i < tasks.length; i++) {
+    tasks = tasks.replace("'", '')
 }
-weekly_tasks = weekly_tasks.split(',')
+tasks = tasks.split(',')
 
 
-var weekly_tasks_date_added_str = String(document.getElementById('weekly_tasks_date_added').textContent);
-var weekly_tasks_date_added = weekly_tasks_date_added_str.replace('[', '').replace(']', '');
-for (var i = 0; i < weekly_tasks_date_added.length; i++) {
-    weekly_tasks_date_added = weekly_tasks_date_added.replace("'", '')
+var tasks_date_added_str = String(document.getElementById('tasks_date_added').textContent);
+var tasks_date_added = tasks_date_added_str.replace('[', '').replace(']', '');
+for (var i = 0; i < tasks_date_added.length; i++) {
+    tasks_date_added = tasks_date_added.replace("'", '')
 }
-weekly_tasks_date_added = weekly_tasks_date_added.split(',')
+tasks_date_added = tasks_date_added.split(',')
 
 
-var weekly_tasks_id_str = String(document.getElementById('weekly_tasks_id').textContent);
-var weekly_tasks_id = weekly_tasks_id_str.replace('[', '').replace(']', '');
-for (var i = 0; i < weekly_tasks_id.length; i++) {
-    weekly_tasks_id = weekly_tasks_id.replace("'", '')
-    weekly_tasks_id = weekly_tasks_id.replace(' ', '')
+var tasks_id_str = String(document.getElementById('tasks_id').textContent);
+var tasks_id = tasks_id_str.replace('[', '').replace(']', '');
+for (var i = 0; i < tasks_id.length; i++) {
+    tasks_id = tasks_id.replace("'", '')
+    tasks_id = tasks_id.replace(' ', '')
 }
-weekly_tasks_id = weekly_tasks_id.split(',')
+tasks_id = tasks_id.split(',')
 
 
-var weekly_tasks_high_priority_str = String(document.getElementById('weekly_tasks_high_priority').textContent);
-var weekly_tasks_high_priority = weekly_tasks_high_priority_str.replace('[', '').replace(']', '');
-for (var i = 0; i < weekly_tasks_high_priority.length; i++) {
-    weekly_tasks_high_priority = weekly_tasks_high_priority.replace("'", '')
-    weekly_tasks_high_priority = weekly_tasks_high_priority.replace(' ', '')
+var tasks_high_priority_str = String(document.getElementById('tasks_high_priority').textContent);
+var tasks_high_priority = tasks_high_priority_str.replace('[', '').replace(']', '');
+for (var i = 0; i < tasks_high_priority.length; i++) {
+    tasks_high_priority = tasks_high_priority.replace("'", '')
+    tasks_high_priority = tasks_high_priority.replace(' ', '')
 }
-weekly_tasks_high_priority = weekly_tasks_high_priority.split(',')
+tasks_high_priority = tasks_high_priority.split(',')
 
 
 var my_events = []
-for(var i=0;i < weekly_tasks.length;i++)
+for(var i=0;i < tasks.length;i++)
 {
-      if (weekly_tasks_high_priority[i] == 'True')
+      if (tasks_high_priority[i] == 'True')
       {
         my_events[i] = {
-          title: weekly_tasks[i],
-          start: weekly_tasks_date_added[i],
-          url: 'edit_task/' + weekly_tasks_id[i],
+          title: tasks[i],
+          start: tasks_date_added[i],
+          url: 'edit_task/' + tasks_id[i],
           backgroundColor: 'red'
       }
 
@@ -49,16 +49,16 @@ for(var i=0;i < weekly_tasks.length;i++)
       else
       {
         my_events[i] = {
-          title: weekly_tasks[i],
-          start: weekly_tasks_date_added[i],
-          url: 'edit_task/' + weekly_tasks_id[i],
+          title: tasks[i],
+          start: tasks_date_added[i],
+          url: 'edit_task/' + tasks_id[i],
           backgroundColor: 'blue'
       }
     }
 
 }
 
-
+document.write(my_events[0].title)
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
 
@@ -87,3 +87,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   calendar.render();
 });
+

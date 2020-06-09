@@ -4,44 +4,211 @@
 
 {% if user.is_authenticated %}
 <h1>Protip:</h1>
-<a href="{{link}}">{{tips}}</a>
+<a href="{{link}}">{{tip}}</a>
 <hr>
-<ul class="nav nav-pills nav-fill">
+<ul class="nav nav-pills nav-justified">
   <li class="nav-item">
     <a class="nav-link active" href="#">Weekly Program</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'ToDoList:finished_tasks' %}">Finished tasks</a>
+    <a class="nav-link" href="{% url 'ToDoList:tasks' %}">Tasks</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'ToDoList:unfinished_tasks' %}">Unfinished tasks</a>
+    <a class="nav-link" href="#">Goals</a>
   </li>
 </ul>
 <br>
-<!--Vars for fullcalendar.js-->
-<var id="weekly_tasks" hidden="true">{{weekly_tasks}}</var>
-<var id="weekly_tasks_date_added" hidden="true">{{weekly_tasks_date_added}}</var>
-<var id="weekly_tasks_id" hidden="true">{{weekly_tasks_id}}</var>
-<var id="weekly_tasks_high_priority" hidden="true">{{weekly_tasks_high_priority}}</var>
-<h1>Weekly average:{{weekly_average}}</h1>
-<hr>
-<link href="{% static 'css/fontawesome-free-5.13.0-web/css/all.css' %}" rel='stylesheet'>
-<link href="{% static 'css/bootstrap.min.css' %}" rel='stylesheet' />
 
-<link href="{% static 'css/fullcalendar/core/main.css' %}" rel='stylesheet'>
-<link href="{% static 'css/fullcalendar/list/main.css'%}" rel="stylesheet">
-<link href="{% static 'css/fullcalendar/daygrid/main.css'%}" rel="stylesheet">
-<link href="{% static 'css/fullcalendar/bootstrap/main.css' %}" rel="stylesheet">
 
-<script src="{% static 'js/fullcalendar/core/main.js' %}"></script>
-<script src="{% static 'js/fullcalendar/list/main.js'%}"></script>
-<script src="{% static 'js/fullcalendar/daygrid/main.js'%}"></script>
-<script src="{% static 'js/fullcalendar/bootstrap/main.js'%}"></script>
-
-<script src="{% static 'js/calendar.js' %}"></script>
-
-<div id='calendar'></div>
-<br>
+<h2>Sunday:</h2>
+{% for weekly_task in weekly_tasks %}
+  {% if weekly_task.day == 'sunday' %}
+    {% if weekly_task.high_priority %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% else %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<hr><br>
+<h2>Monday:</h2>
+{% for weekly_task in weekly_tasks %}
+  {% if weekly_task.day == 'monday' %}
+    {% if weekly_task.high_priority %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% else %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<hr><br>
+<h2>Tuesday:</h2>
+{% for weekly_task in weekly_tasks %}
+  {% if weekly_task.day == 'tuesday' %}
+    {% if weekly_task.high_priority %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% else %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<hr><br>
+<h2>Wednesday:</h2>
+{% for weekly_task in weekly_tasks %}
+  {% if weekly_task.day == 'wednesday' %}
+    {% if weekly_task.high_priority %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% else %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<hr><br>
+<h2>Thursday:</h2>
+{% for weekly_task in weekly_tasks %}
+  {% if weekly_task.day == 'thursday' %}
+    {% if weekly_task.high_priority %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% else %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<hr><br>
+<h2>Friday:</h2>
+{% for weekly_task in weekly_tasks %}
+  {% if weekly_task.day == 'friday' %}
+    {% if weekly_task.high_priority %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% else %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<hr><br>
+<h2>Saturday:</h2>
+{% for weekly_task in weekly_tasks %}
+  {% if weekly_task.day == 'saturday' %}
+    {% if weekly_task.high_priority %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% else %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{weekly_task.title}}</h5>
+          <small>{{weekly_task.hour}}</small>
+        </div>
+        <p class="mb-1">{{weekly_task.note}}</p>
+      </a>
+    </div>
+    {% endif %}
+  {% endif %}
+{% endfor %}
+<hr><br>
 <!------------------------------------------------------------------------------------>
 {% else %}
 <div class="jumbotron">

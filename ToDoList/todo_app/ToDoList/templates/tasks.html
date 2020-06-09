@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h1>Protip:</h1>
+<a href="{{link}}">{{tip}}</a>
+<hr>
+<ul class="nav nav-pills nav-justified">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'ToDoList:index' %}">Weekly Program</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="{% url 'ToDoList:tasks' %}">Tasks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Goals</a>
+  </li>
+</ul>
+<br>
+<!--Vars for fullcalendar.js-->
+<var id="tasks" hidden="true">{{tasks}}</var>
+<var id="tasks_date_added" hidden="true">{{tasks_date_added}}</var>
+<var id="tasks_id" hidden="true">{{tasks_id}}</var>
+<var id="tasks_high_priority" hidden="true">{{tasks_high_priority}}</var>
+
+<link href="{% static 'css/fontawesome-free-5.13.0-web/css/all.css' %}" rel='stylesheet'>
+<link href="{% static 'css/bootstrap.min.css' %}" rel='stylesheet' />
+
+<link href="{% static 'css/fullcalendar/core/main.css' %}" rel='stylesheet'>
+<link href="{% static 'css/fullcalendar/list/main.css'%}" rel="stylesheet">
+<link href="{% static 'css/fullcalendar/daygrid/main.css'%}" rel="stylesheet">
+<link href="{% static 'css/fullcalendar/bootstrap/main.css' %}" rel="stylesheet">
+
+<script src="{% static 'js/fullcalendar/core/main.js' %}"></script>
+<script src="{% static 'js/fullcalendar/list/main.js'%}"></script>
+<script src="{% static 'js/fullcalendar/daygrid/main.js'%}"></script>
+<script src="{% static 'js/fullcalendar/bootstrap/main.js'%}"></script>
+
+<script src="{% static 'js/calendar.js' %}"></script>
+
+<div id='calendar'></div>
+
+{% endblock content %}
