@@ -14,201 +14,343 @@
     <a class="nav-link" href="{% url 'ToDoList:tasks' %}">Tasks</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Goals</a>
+    <a class="nav-link" href="{% url 'Projects:projects' %}">Projects</a>
   </li>
 </ul>
 <br>
 
+{% for weekly_task in weekly_tasks %}
+{% empty %}
+<h2>You need to add some weekly tasks</h2>
+{% endfor %}
 
+{% if 'sunday' in days %}
 <h2>Sunday:</h2>
 {% for weekly_task in weekly_tasks %}
-  {% if weekly_task.day == 'sunday' %}
-    {% if weekly_task.high_priority %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% else %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% endif %}
+{% if weekly_task.day == 'sunday' %}
+  {% if weekly_task.high_priority %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-warning">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
+  {% else %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-primary">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
   {% endif %}
+{% endif%}
 {% endfor %}
 <hr><br>
+{% endif %}
+
+
+{% if 'monday' in days %}
 <h2>Monday:</h2>
 {% for weekly_task in weekly_tasks %}
-  {% if weekly_task.day == 'monday' %}
-    {% if weekly_task.high_priority %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% else %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% endif %}
+{% if weekly_task.day == 'monday' %}
+  {% if weekly_task.high_priority %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-warning">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
+  {% else %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-primary">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
   {% endif %}
+{% endif%}
 {% endfor %}
 <hr><br>
+{% endif %}
+
+
+{% if 'tuesday' in days %}
 <h2>Tuesday:</h2>
 {% for weekly_task in weekly_tasks %}
-  {% if weekly_task.day == 'tuesday' %}
-    {% if weekly_task.high_priority %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% else %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% endif %}
+{% if weekly_task.day == 'tuesday' %}
+  {% if weekly_task.high_priority %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-warning">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
+  {% else %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-primary">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
   {% endif %}
+{% endif%}
 {% endfor %}
 <hr><br>
+{% endif %}
+
+
+{% if 'wednesday' in days %}
 <h2>Wednesday:</h2>
 {% for weekly_task in weekly_tasks %}
-  {% if weekly_task.day == 'wednesday' %}
-    {% if weekly_task.high_priority %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% else %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% endif %}
+{% if weekly_task.day == 'wednesday' %}
+  {% if weekly_task.high_priority %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-warning">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
+  {% else %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-primary">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
   {% endif %}
+{% endif%}
 {% endfor %}
 <hr><br>
+{% endif %}
+
+
+{% if 'thursday' in days %}
 <h2>Thursday:</h2>
 {% for weekly_task in weekly_tasks %}
-  {% if weekly_task.day == 'thursday' %}
-    {% if weekly_task.high_priority %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% else %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% endif %}
+{% if weekly_task.day == 'thursday' %}
+  {% if weekly_task.high_priority %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-warning">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
+  {% else %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-primary">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
   {% endif %}
+{% endif%}
 {% endfor %}
 <hr><br>
+{% endif %}
+
+
+{% if 'friday' in days %}
 <h2>Friday:</h2>
 {% for weekly_task in weekly_tasks %}
-  {% if weekly_task.day == 'friday' %}
-    {% if weekly_task.high_priority %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% else %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% endif %}
+{% if weekly_task.day == 'friday' %}
+  {% if weekly_task.high_priority %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-warning">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
+  {% else %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-primary">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
   {% endif %}
+{% endif%}
 {% endfor %}
 <hr><br>
+{% endif %}
+
+
+{% if 'saturday' in days %}
 <h2>Saturday:</h2>
 {% for weekly_task in weekly_tasks %}
-  {% if weekly_task.day == 'saturday' %}
-    {% if weekly_task.high_priority %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% else %}
-    <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{weekly_task.title}}</h5>
-          <small>{{weekly_task.hour}}</small>
-        </div>
-        <p class="mb-1">{{weekly_task.note}}</p>
-      </a>
-    </div>
-    {% endif %}
+{% if weekly_task.day == 'saturday' %}
+  {% if weekly_task.high_priority %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-warning">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
+  {% else %}
+  <div class="list-group">
+    <a href="edit_weekly_task/{{ weekly_task.id }}" class="list-group-item list-group-item-action list-group-item-primary">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">{{weekly_task.title}}</h5>
+        <small>{{weekly_task.hour}}</small>
+      </div>
+      <p class="mb-1">{{weekly_task.note}}</p>
+      {% if weekly_task.finished %}
+      <small>Finished</small>
+      {% else %}
+      <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
+        {% csrf_token %}
+        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+      </form>
+      {% endif %}
+    </a>
+  </div>
   {% endif %}
+{% endif%}
 {% endfor %}
 <hr><br>
+{% endif %}
 <!------------------------------------------------------------------------------------>
 {% else %}
 <div class="jumbotron">

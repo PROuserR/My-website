@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from .models import Task, WeeklyTask
-from .forms import TaskForm, NewTaskForm, NewWeeklyTaskForm
+from .forms import TaskForm, NewTaskForm, NewWeeklyTaskForm, WeeklyTaskForm
 from random import choice
 import datetime
 import time
 
-#These vars are global to be used by funcs that view your tasks
+
 link = 'https://www.verywellmind.com/things-you-can-do-to-improve-your-mental-focus-4115389'
 tips = ['Start by Assessing Your Mental Focus',
         'Eliminate Distractions',
@@ -18,45 +18,17 @@ tips = ['Start by Assessing Your Mental Focus',
         'Keep Practicing to Strengthen Your Focus']
 
 
-def check_day(day):
-    if day.lower() in ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']:
-        return True
-
-    return False
-
-
-def check_time(time):
-    try:
-        hour = time[:2]
-        minute = time[3:5]
-        part = time[5:7]
-    except ValueError:
-        print(ValueError())
-    finally:
-        hour = time[0]
-        minute = time[2:4]
-        part = time[4:6]
-
-    if int(hour) > 0 and int(hour) < 13:
-        if int(minute) >= 0 and int(minute) < 60:
-            if part.lower() == 'am' or part.lower() == 'pm':
-                return True
-    
-    return False
-
-
 # Create your views here.
 def index(request):
     if request.user.is_authenticated:
         weekly_tasks = WeeklyTask.objects.filter(owner = request.user).order_by('-high_priority')
-        context = {'tip': choice(tips), 'weekly_tasks': weekly_tasks}
+        context = { 'weekly_tasks': weekly_tasks,
+        'days': set([weekly_task.day for weekly_task in weekly_tasks]),
+        'tip': choice(tips),
+        'link': link}
         return render(request, 'index.html', context)
     else:
         return render(request, 'index.html')
-
-
-def accounts_profile(request):
-    return redirect('ToDoList:index')
 
 
 @login_required
@@ -66,21 +38,35 @@ def new_weekly_task(request):
     else:
         form = NewWeeklyTaskForm(data=request.POST)
         if form.is_valid():
-            if check_day(form['day'].value()):
-                if check_time(form['hour'].value()):
-                    new_weekly_task = form.save(commit=False)
-                    new_weekly_task.owner = request.user
-                    new_weekly_task.day = new_weekly_task.day.lower()
-                    new_weekly_task.save()
-                    return redirect('ToDoList:index')
+            new_weekly_task = form.save(commit=False)
+            new_weekly_task.owner = request.user
+            new_weekly_task.day = new_weekly_task.day.lower()
+            new_weekly_task.save()
+            return redirect('ToDoList:index')
     
     context = {'form': form}
     return render(request, 'new_weekly_task.html', context)
 
 
 @login_required
+def new_task(request):
+    if request.method != 'POST':
+        form = NewTaskForm()
+    else:
+        form = NewTaskForm(data=request.POST)
+        if form.is_valid():
+            new_task = form.save(commit=False)
+            new_task.owner = request.user
+            new_task.save()
+            return redirect('ToDoList:index')
+
+    context = {'form': form}
+    return render(request, 'new_task.html', context)
+
+
+@login_required
 def tasks(request):
-    tasks = Task.objects.filter(owner=request.user, finished=False).order_by('-high_priority')
+    tasks = Task.objects.filter(owner=request.user, finished=False, project=False).order_by('-high_priority')
     if request.method == 'POST':
         task = Task.objects.get(id=request.POST.get('id'))
         task.delete()
@@ -112,7 +98,8 @@ def tasks(request):
                'tasks_date_added': tasks_date_added,
                'tasks_id': [task.id for task in tasks],
                'tasks_high_priority': [task.high_priority for task in tasks],
-               'tip': choice(tips)}
+               'tip': choice(tips),
+               'link': link}
     return render(request, 'tasks.html', context)
 
 
@@ -120,42 +107,47 @@ def tasks(request):
 def edit_task(request, task_id):
     task = Task.objects.get(id=task_id)
 
-    if request.method == 'GET':
+    if request.method != 'POST':
         form = TaskForm(instance=task)
-    elif request.method == 'POST':
+    else:
         form = TaskForm(instance=task, data=request.POST)
-        if request.POST.get('submit') == 'Remove':
+        if request.POST.get('submit') == 'delete':
             task.delete()
+            return redirect('ToDoList:tasks')
         else:
             if form.is_valid():
-                task.title = form['title'].value()
-                task.finished = form['finished'].value()
-                task.note = form['note'].value()
-                task.high_priority = form['high_priority'].value()
-                task.save()
-
-        return redirect('ToDoList:index')
-    if task.owner != request.user:
-        raise Http404
+                form.save()
+                return redirect('ToDoList:tasks')
 
     context = {'form': form, 'task': task}
     return render(request, 'edit_task.html', context)
 
 
 @login_required
-def new_task(request):
-    if request.method != 'POST':
-        form = NewTaskForm()
-    else:
-        form = NewTaskForm(data=request.POST)
-        if form.is_valid():
-            new_task = form.save(commit=False)
-            new_task.owner = request.user
-            new_task.save()
-            return redirect('ToDoList:index')
+def edit_weekly_task(request, weekly_task_id):
+    weekly_task = WeeklyTask.objects.get(id=weekly_task_id)
 
-    context = {'form': form}
-    return render(request, 'new_task.html', context)
+    if request.method != 'POST':
+        form = WeeklyTaskForm(instance=weekly_task)
+    else:
+        form = WeeklyTaskForm(instance=weekly_task, data=request.POST)
+        if request.POST.get('submit') == 'delete':
+            weekly_task.delete()
+            return redirect('ToDoList:index')
+        else :
+            if form.is_valid():
+                form.save()
+                return redirect('ToDoList:index')
+
+    context = {'form': form, 'weekly_task': weekly_task}
+    return render(request, 'edit_weekly_task.html', context)
+
+@login_required
+def finish_weekly_task(request, weekly_task_id):
+    weekly_task = WeeklyTask.objects.get(id=weekly_task_id)
+    weekly_task.finished = True
+    weekly_task.save()
+    return redirect('ToDoList:index')
 
 
 @login_required
@@ -169,3 +161,7 @@ def search_results(request):
 
     context = {'tasks': tasks}
     return render(request, 'search_results.html', context)
+
+
+def accounts_profile(request):
+    return redirect('ToDoList:index')

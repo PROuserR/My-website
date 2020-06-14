@@ -4,8 +4,8 @@
 {% load static %}
 <!-- List group -->
 <div class="list-group" id="myList" role="tablist">
-  <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">User</a>
-  <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Statistics</a>
+  <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">Statistics</a>
+  <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Graphs</a>
 </div>
 
 <!-- Tab panes -->
@@ -16,7 +16,9 @@
         <h1 class="card-title">{{user.username}}</h1>
         <h2 class="card-text">ID: {{user.id}}</h2>
         <h2 class="card-text">Date joined: {{user.date_joined}}</h2>
-        <h2 class="card-subtitle mb-2 text-muted">Finished tasks:{{finished_tasks_len}}</h2>
+        <h2 class="card-subtitle mb-2 text-muted">Finished tasks:{{tasks_len}}</h2>
+        <h2 class="card-subtitle mb-2 text-muted">Finished weekly tasks:{{weekly_tasks_len}}</h2>
+        <h2 class="card-subtitle mb-2 text-muted">Finished projects:{{projects_len}}</h2>
       </div>
     </div>
   </div>

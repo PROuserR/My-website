@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Protip:</h1>
+<a href="{{link}}">{{tip}}</a>
+<hr>
+<ul class="nav nav-pills nav-justified">
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'ToDoList:index' %}">Weekly Program</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'ToDoList:tasks' %}">Tasks</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Projects</a>
+  </li>
+</ul>
+<br>
+
+<div class="list-group">
+{% for project in projects %}
+
+<a href="{% url 'Projects:edit_project' project.id %}" class="list-group-item list-group-item-action list-group-item-primary">
+  <h1>{{ project }}|{{ project.admin }}</h1>
+
+  <h2>Tasks:</h2>
+  {% for task in tasks %}
+  <!--Instead 0f a tag cause a tag will not render properly-->
+  <form action="{% url 'ToDoList:edit_task' task.id %}">
+    <button class="btn btn-warning btn-lg btn-block">{{ task }}</button>
+  </form>
+  {% empty %}
+    <p>None yet</p>
+  {% endfor %}
+
+  <h2>Members:</h2>
+  {% for member in members %}
+  <button class="btn btn-warning btn-lg btn-block">{{ member }}</button>
+  {% empty %}
+    <p>None yet</p>
+  {% endfor %}
+</a>
+
+{% endfor %}
+</div>
+{% endblock content %}

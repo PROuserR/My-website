@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ToDoList',
     'Users',
+    'Projects',
+    #Tempus_Dominus 
+    'tempus_dominus',
     #Google auth
     'django.contrib.sites', 
     'allauth',

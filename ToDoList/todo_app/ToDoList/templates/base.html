@@ -31,12 +31,12 @@
                     <li class="nav-item dropdown">
                         <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle"
                             data-toggle="dropdown" href="#" id="navbarDropdown" role="button">
-                            Tasks & Programs
+                            New *
                         </a>
                         <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                            <a class="dropdown-item" href="{% url 'ToDoList:new_task' %}">New task</a>
                             <a class="dropdown-item" href="{% url 'ToDoList:new_weekly_task' %}">New weekly task</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'ToDoList:new_task' %}">New task</a>                        
+                            <a class="dropdown-item" href="{% url 'Projects:new_project' %}">New project</a>              
                         </div>
                     </li>
 

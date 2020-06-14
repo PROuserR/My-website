@@ -1,15 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block content %}
-<h1>Add a new weekly task below:</h1>
-
+{% block content%}
 <link href="{% static 'css/fontawesome-free-5.13.0-web/css/all.css' %}" rel='stylesheet'>
 {{ form.media }}
-
-<form action="{% url 'ToDoList:new_weekly_task' %}" method="POST">
+<form action="{% url 'Projects:new_project' %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button name="submit" class="btn btn-outline-secondary btn-lg">Add weekly task</button>
+    <button name="submit" class="btn btn-outline-secondary btn-lg">New Project</button>
 </form>
 {% endblock content %}

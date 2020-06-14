@@ -4,7 +4,7 @@ var textareas = document.getElementsByTagName("textarea")
 var selects = document.getElementsByTagName("select")
 var buttons = document.getElementsByTagName("button")
 
-document.appendChild()
+
 for(var i = 0; i < buttons.length; i++){
     if(buttons[i].innerHTML == "Sign In")
     {

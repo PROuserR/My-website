@@ -41,7 +41,7 @@ for(var i=0;i < tasks.length;i++)
         my_events[i] = {
           title: tasks[i],
           start: tasks_date_added[i],
-          url: 'edit_task/' + tasks_id[i],
+          url: 'http://127.0.0.1:8000/edit_task/' + tasks_id[i],
           backgroundColor: 'red'
       }
 
@@ -51,14 +51,14 @@ for(var i=0;i < tasks.length;i++)
         my_events[i] = {
           title: tasks[i],
           start: tasks_date_added[i],
-          url: 'edit_task/' + tasks_id[i],
+          url: 'http://127.0.0.1:8000/edit_task/' + tasks_id[i],
           backgroundColor: 'blue'
       }
     }
 
 }
 
-document.write(my_events[0].title)
+
 document.addEventListener('DOMContentLoaded', function() {
   var calendarEl = document.getElementById('calendar');
 

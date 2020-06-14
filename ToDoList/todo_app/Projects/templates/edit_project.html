@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'css/fontawesome-free-5.13.0-web/css/all.css' %}" rel='stylesheet'>
+{{ form.media }}
+<form action="{% url 'Projects:edit_project' project.id %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br>
+    <label for="">Tasks:</label>
+    <select name="tasks" id="tasks">
+        {% for task in tasks %}
+            <option value="{{task.id}}">{{task}}</option>
+        {% empty %}
+            None yet!
+        {% endfor %}
+
+    </select>  
+    <br>
+    <label for="">Members:</label>
+    <select name="members" id="members">
+        {% for member in members %}
+            <option value="{{member.id}}">{{member}}</option>
+        {% empty %}
+            None yet!
+        {% endfor %}
+    </select> 
+    <br>
+    <button name="submit" value="save" class="btn btn-success btn-lg btn-block">Save</button>
+</form>
+
+<form action="{% url 'Projects:edit_project' project.id %}" method="POST">
+    {% csrf_token %}
+    <br>
+    <button name="submit" value="delete" class="btn btn-danger btn-lg btn-block">Delete</button>
+</form>
+
+{% endblock content %}

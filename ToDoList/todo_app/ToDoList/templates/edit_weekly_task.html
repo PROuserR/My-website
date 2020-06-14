@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<link href="{% static 'css/fontawesome-free-5.13.0-web/css/all.css' %}" rel='stylesheet'>
+{{ form.media }}
+
+<form action="{% url 'ToDoList:edit_weekly_task' weekly_task.id %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <br>
+    <button name="submit" value="save" class="btn btn-success btn-lg btn-block">Save</button>
+</form>
+
+<form action="{% url 'ToDoList:edit_weekly_task' weekly_task.id %}" method="POST">
+    {% csrf_token %}
+    <br>
+    <button name="submit" value="delete" class="btn btn-danger btn-lg btn-block">Delete</button>
+</form>
+{% endblock content %}
