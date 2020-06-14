@@ -58,7 +58,7 @@ def new_task(request):
             new_task = form.save(commit=False)
             new_task.owner = request.user
             new_task.save()
-            return redirect('ToDoList:index')
+            return redirect('ToDoList:tasks')
 
     context = {'form': form}
     return render(request, 'new_task.html', context)
