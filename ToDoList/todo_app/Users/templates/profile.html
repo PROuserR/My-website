@@ -2,62 +2,96 @@
 
 {% block content %}
 {% load static %}
-<!-- List group -->
-<div class="list-group" id="myList" role="tablist">
-  <a class="list-group-item list-group-item-action active" data-toggle="list" href="#home" role="tab">Statistics</a>
-  <a class="list-group-item list-group-item-action" data-toggle="list" href="#profile" role="tab">Graphs</a>
-</div>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Info</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Statistics</a>
+  </li>
+</ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-  <div class="tab-pane active" id="home" role="tabpanel">
-    <div class="card">
-      <div class="card-body" data-toggle="popover" data-placement="bottom" title="Last login" data-content="{{user.last_login}}">
-        <h1 class="card-title">{{user.username}}</h1>
-        <h2 class="card-text">ID: {{user.id}}</h2>
-        <h2 class="card-text">Date joined: {{user.date_joined}}</h2>
-        <h2 class="card-subtitle mb-2 text-muted">Finished tasks:{{tasks_len}}</h2>
-        <h2 class="card-subtitle mb-2 text-muted">Finished weekly tasks:{{weekly_tasks_len}}</h2>
-        <h2 class="card-subtitle mb-2 text-muted">Finished projects:{{projects_len}}</h2>
+  <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="card" style="width: 18rem;text-align: center;left: 35%;">
+      <img src="{{profile_pic.url}}" class="card-img-top" alt="...">
+      
+      <div class="card-body">
+          <h1>{{user.username}}</h1>
+          <b>Email</b>
+          {% if user.email == None or user.email == '' %}
+          None
+          {% else %}
+          {{user.email}}
+          {% endif %}
+          <br>
+          <b>Joined</b> {{user.date_joined}}
+          <br>
+          <a href="/accounts/social/connections/">Social account..</a>
       </div>
     </div>
   </div>
-  <div class="tab-pane" id="profile" role="tabpanel">
-    {% if finished_tasks_len > 0 %}
 
-    <var id="x_values" hidden="true">{{x_values}}</var>
-    <var id="y_values" hidden="true">{{y_values}}</var>
-    <script src="{% static 'js/chart.min.js' %}"></script>
-    <canvas id="myChart" width="400" height="400"></canvas>
-    <script src="{% static 'js/chart_func.js' %}"></script>
-    {% if well_done %}
-    <div class="alert alert-success" role="alert" style="background-color: limegreen;">
-      <h4 class="alert-heading">Well done!</h4>
-      <p>It looks like your making progress,keep on!</p>
+  <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <!--if now:-->
+    <!--Chart.js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <var id="x_values" hidden>{{x_values}}</var>
+    <var id="y_values" hidden>{{y_values}}</var>
+    <var id="now" hidden>{{now}}</var>
+    <canvas id="line-chart" width="800" height="450"></canvas>
+    <script>
+      x_values = document.getElementById("x_values");
+      var x_values_str = String(document.getElementById('x_values').textContent);
+      var x_values = x_values_str.replace('[', '').replace(']', '');
+      for (var i = 0; i < x_values.length; i++) 
+      {
+      x_values = x_values.replace("'", '')
+      }
+      x_values = x_values.split(',')
 
-      <hr>
-      <b>Average : {{average}}</b>
-    </div>
-    {% else %}
-    <div class="alert alert-danger" role="alert" style="background-color: red;">
-      <h4 class="alert-heading">Oops</h4>
-      <p>It looks like your not making progress,try harder!</p>
-      <hr>
-      <b>Average : {{average}}</b>
-      <br>
-      {% if last_task %}
-      <b>Last finished task: {{last_task}}</b>
-      {% else %}
-      <p>No tasks have been finished yet!</p>
-      {% endif %}
 
-    </div>
-    {% endif %}
-    {% else %}
-    <h1>No tasks have been added</h1>
-    <a href="{% url 'ToDoList:new_task' %}">Let's add a task</a>
-    {% endif %}
+      y_values = document.getElementById("y_values");
+      var y_values_str = String(document.getElementById('y_values').textContent);
+      var y_values = y_values_str.replace('[', '').replace(']', '');
+      for (var i = 0; i < y_values.length; i++) 
+      {
+      y_values = y_values.replace("'", '')
+      }
+      y_values = y_values.split(',')
+
+      now = document.getElementById("now").innerHTML;
+          new Chart(document.getElementById("line-chart"), {
+      type: 'line',
+      data: {
+        labels: x_values,
+        datasets: [{ 
+            data: y_values,
+            label: "Your Progess",
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: true,
+          text: now
+        }
+      }
+    });
+    </script>
+    
+    <!--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Chart.js-->
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Tasks:{{tasks_len}}</li>
+      <li class="list-group-item">Weekly tasks:{{weekly_tasks_len}}</li>
+      <li class="list-group-item">Projects:{{projects_len}}</li>
+      <li class="list-group-item">Average:{{average}}</li>
+      <li class="list-group-item">Last task:<b>{{last_task}}</b></li>
+    </ul>
   </div>
 </div>
-
 {% endblock content %}

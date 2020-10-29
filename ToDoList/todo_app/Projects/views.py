@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from random import choice
-from .models import Project
+from .models import Project, TreeField
 from .forms import ProjectForm
 from ToDoList.models import Task
 
@@ -43,6 +43,28 @@ def projects(request):
     return render(request, 'projects.html', context)
     
 
+
+@login_required
+def project(request, project_id):
+    project = Project.objects.get(id=project_id)
+    project_data = None
+    if project.type == 'tree':
+        trees = TreeField.objects.all()
+        for tree in trees:
+            if tree.project == project:
+                project_data = tree
+    if project.type == 'linear':
+        tasks_id = project.tasks
+        tasks = Task.objects.filter(project=True)
+        #Tasks with the required id
+        tasks = list(filter(lambda task: str(task.id) in tasks_id, tasks))
+        project_data = tasks
+
+        print(project.tasks, project.members)
+
+    context = {'project_data':project_data}
+    return render(request, 'project.html', context)
+
 @login_required
 def new_project(request):
     if request.method != 'POST':
@@ -73,8 +95,10 @@ def edit_project(request, project_id):
         else:
             if form.is_valid():
                 form.save()
-                project.tasks += f"{request.POST.get('tasks')},"
-                project.members += f"{request.POST.get('members')},"
+                if f"{request.POST.get('tasks')}," not in project.tasks:
+                    project.tasks += f"{request.POST.get('tasks')},"
+                if f"{request.POST.get('members')}," not in project.members:
+                    project.members += f"{request.POST.get('members')},"
                 project.save()
 
         return redirect('Projects:projects')

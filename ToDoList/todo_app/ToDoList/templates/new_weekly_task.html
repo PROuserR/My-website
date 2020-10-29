@@ -10,6 +10,6 @@
 <form action="{% url 'ToDoList:new_weekly_task' %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button name="submit" class="btn btn-outline-secondary btn-lg">Add weekly task</button>
+    <button name="submit" class="btn btn-outline-warning btn-lg btn-block">Create</button>
 </form>
 {% endblock content %}

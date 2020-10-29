@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
-from .models import Task, WeeklyTask
+from .models import WeeklyTask, Task
 from .forms import TaskForm, NewTaskForm, NewWeeklyTaskForm, WeeklyTaskForm
 from random import choice
 import datetime
@@ -22,10 +22,18 @@ tips = ['Start by Assessing Your Mental Focus',
 def index(request):
     if request.user.is_authenticated:
         weekly_tasks = WeeklyTask.objects.filter(owner = request.user).order_by('-high_priority')
+        print(weekly_tasks)
+        for weekly_task in weekly_tasks:
+            if weekly_task.date_tobe_finished.year >= datetime.datetime.now().year:
+                if weekly_task.date_tobe_finished.month >= datetime.datetime.now().month:
+                    if weekly_task.date_tobe_finished.day >= datetime.datetime.now().day:
+                        weekly_task.finished = False
+                        weekly_task.save()
         context = { 'weekly_tasks': weekly_tasks,
         'days': set([weekly_task.day for weekly_task in weekly_tasks]),
         'tip': choice(tips),
         'link': link}
+
         return render(request, 'index.html', context)
     else:
         return render(request, 'index.html')
@@ -36,11 +44,21 @@ def new_weekly_task(request):
     if request.method != 'POST':
         form = NewWeeklyTaskForm()
     else:
-        form = NewWeeklyTaskForm(data=request.POST)
+        form = NewTaskForm(data=request.POST)
         if form.is_valid():
             new_weekly_task = form.save(commit=False)
             new_weekly_task.owner = request.user
             new_weekly_task.day = new_weekly_task.day.lower()
+            day = datetime.datetime.now().day + 7
+            month = datetime.datetime.now().month
+            year = datetime.datetime.now().year
+            if day + 7 > 30:
+                day = abs(day - 30)
+                month += 1
+            if month > 12:
+                month = 1
+                year += 1
+            new_weekly_task.date_tobe_finished = datetime.date(year, month, day)
             new_weekly_task.save()
             return redirect('ToDoList:index')
     

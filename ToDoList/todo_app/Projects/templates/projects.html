@@ -9,7 +9,7 @@
     <a class="nav-link" href="{% url 'ToDoList:index' %}">Weekly Program</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'ToDoList:tasks' %}">Tasks</a>
+    <a class="nav-link" href="{% url 'ToDoList:tasks' %}">ToDo</a>
   </li>
   <li class="nav-item">
     <a class="nav-link active" href="#">Projects</a>
@@ -27,20 +27,28 @@
   {% for task in tasks %}
   <!--Instead 0f a tag cause a tag will not render properly-->
   <form action="{% url 'ToDoList:edit_task' task.id %}">
-    <button class="btn btn-warning btn-lg btn-block">{{ task }}</button>
+    <button class="btn btn-secondary btn-lg btn-block">{{ task }}</button>
   </form>
+  <br>
   {% empty %}
-    <p>None yet</p>
+    {% include "none.html" %}
   {% endfor %}
 
   <h2>Members:</h2>
   {% for member in members %}
-  <button class="btn btn-warning btn-lg btn-block">{{ member }}</button>
+
+  <button class="btn btn-secondary btn-lg btn-block">{{ member }}</button>
+  
+  <br>
   {% empty %}
-    <p>None yet</p>
+    {% include "none.html" %}
   {% endfor %}
 </a>
-
-{% endfor %}
+<a href="{% url 'Projects:project' project.id %}">Project tasks</a>
 </div>
+
+{% empty %}
+  {% include "none.html" %}
+{% endfor %}
+
 {% endblock content %}

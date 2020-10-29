@@ -6,7 +6,7 @@ from tempus_dominus.widgets import DatePicker, TimePicker, DateTimePicker
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'description', 'rules', 'finished', 'date_to_be_finished']
+        fields = ['name', 'description', 'type', 'rules', 'finished', 'date_to_be_finished']
         widgets = {'date_to_be_finished': DateTimePicker(
             options={
                 'useCurrent': True,

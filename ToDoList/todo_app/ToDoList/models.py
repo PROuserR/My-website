@@ -20,7 +20,6 @@ class Task(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     high_priority = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    
 
     def __str__(self):
     #To return the text representation of the model
@@ -31,6 +30,7 @@ class WeeklyTask(models.Model):
     title = models.CharField(max_length=200)
     note = models.TextField(default='None')
     finished = models.BooleanField(default=False)
+    date_tobe_finished = models.DateField()
     high_priority = models.BooleanField(default=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     day = models.CharField(max_length=20, choices=days)

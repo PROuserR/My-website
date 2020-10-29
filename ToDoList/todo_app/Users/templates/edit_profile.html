@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<h1>Edit Profile:</h1>
+
+<form action="{% url 'Users:edit_profile' user.id %}" method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  {{profile_form.as_p}}
+  {{user_form.as_p}}
+  <button name="submit" class="btn btn-outline-success btn-lg btn-block" value="save">Save</button>
+</form>
+<br>
+<form action="{% url 'Users:edit_profile' user.id%}" method="POST">
+    {% csrf_token %}
+    <button name="submit" class="btn btn-outline-danger btn-lg btn-block" value="delete">Remove</button>
+  </form>
+
+<script>
+    var inputs = document.getElementsByTagName("input");
+    for (var i = 0; i < inputs.length; i++) {
+      inputs[i].required = false
+  }
+</script>
+{% endblock content %}

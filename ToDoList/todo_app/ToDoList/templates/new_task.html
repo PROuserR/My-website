@@ -6,6 +6,6 @@
 <form method="POST" action="{% url 'ToDoList:new_task' %}">
     {% csrf_token %}
     {{form.as_p}}
-    <button name="submit" class="btn btn-outline-secondary btn-lg">Add task</button>
+    <button name="submit" class="btn btn-outline-warning btn-lg btn-block">Create</button>
 </form>
 {% endblock content %}

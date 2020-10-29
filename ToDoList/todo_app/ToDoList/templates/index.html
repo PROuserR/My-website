@@ -2,6 +2,7 @@
 {% load static %}
 {% block content %}
 
+
 {% if user.is_authenticated %}
 <h1>Protip:</h1>
 <a href="{{link}}">{{tip}}</a>
@@ -11,7 +12,7 @@
     <a class="nav-link active" href="#">Weekly Program</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{% url 'ToDoList:tasks' %}">Tasks</a>
+    <a class="nav-link" href="{% url 'ToDoList:tasks' %}">ToDo</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{% url 'Projects:projects' %}">Projects</a>
@@ -21,7 +22,7 @@
 
 {% for weekly_task in weekly_tasks %}
 {% empty %}
-<h2>You need to add some weekly tasks</h2>
+{% include "none.html" %}
 {% endfor %}
 
 {% if 'sunday' in days %}
@@ -41,7 +42,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -59,7 +60,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -88,7 +89,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -106,7 +107,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -135,7 +136,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -153,7 +154,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -182,7 +183,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -200,7 +201,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -229,7 +230,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -247,7 +248,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -276,7 +277,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -294,7 +295,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -323,7 +324,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -341,7 +342,7 @@
       {% else %}
       <form action="{% url 'ToDoList:finish_weekly_task' weekly_task.id %}" method="POST">
         {% csrf_token %}
-        <button name="submit" class="btn btn-warning btn-lg btn-block">Finish</button>
+        <button name="submit" class="btn btn-secondary btn-lg btn-block">Finish</button>
       </form>
       {% endif %}
     </a>
@@ -353,21 +354,20 @@
 {% endif %}
 <!------------------------------------------------------------------------------------>
 {% else %}
-<div class="jumbotron">
 
-  <h1 class="display-4">ToDoApp</h1>
-  <img src="{% static 'img/todolist.png' %}" alt="features">
-  <p class="lead">This is a simple ToDoApp that helps you manage your tasks.</p>
+<div class="jumbotron">
+  <h1 class="display-4">DigitalHub</h1>
+  <img  src="{% static 'img/Digital Hub 2.png' %}" alt="features" width="150" height="175">
   <hr>
-  <div class="accordion" id="accordionExample">
+  <div class="accordion" id="accordionExample" >
     <div class="card">
       <div class="card-header" id="headingOne">
         <h2 class="mb-0">
           <button class="btn btn-link collapsed btn-lg" type="button" data-toggle="collapse" data-target="#collapseOne"
-            aria-expanded="true" aria-controls="collapseOne">
+            aria-expanded="true" aria-controls="collapseOne" >
             Features
           </button>
-          <img src="{% static 'img/features.png' %}" alt="features">
+          <img src="{% static 'img/bootstrap-icons-1.0.0/flower1.svg' %}" alt="features" width="50" height="50" class="animate__animated animate__bounce">
         </h2>
       </div>
 
@@ -389,7 +389,7 @@
           <button class="btn btn-link collapsed btn-lg" type="button" data-toggle="collapse" data-target="#collapseTwo"
             aria-expanded="false" aria-controls="collapseTwo">
             How it works
-            <img src="{% static 'img/howitworks.png' %}" alt="features">
+            <img src="{% static 'img/bootstrap-icons-1.0.0/gear.svg' %}" alt="features" width="50" height="50">
           </button>
         </h2>
       </div>
@@ -426,29 +426,19 @@
           <button class="btn btn-link collapsed btn-lg" type="button" data-toggle="collapse"
             data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
             About
-            <img src="{% static 'img/about.png' %}" alt="features">
+            <img src="{% static 'img/bootstrap-icons-1.0.0/info-circle.svg' %}" alt="features" width="50" height="50">
           </button>
         </h2>
       </div>
       <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
         <div class="card-body">
-          This website uses this tech stack:
-          <hr>
-          <ul>
-            <li>Backend:Django(python3)</li>
-            <li>Frontend:Bootstrap4</li>
-            <li>Database:sqlite3 in django</li>
-            <hr>
-            <li>OS:This kind of workflow can be developped and deployed in any OS :)</li>
-            <li>Server:Deployed to pythonanywhere</li>
-          </ul>
-          <hr>
+
         </div>
       </div>
     </div>
   </div>
   <br>
-  <a class="btn btn-primary btn-lg" href="{% url 'Users:register' %}">Register</a>
+  <a class="btn btn-primary btn-lg" href="/accounts/login/">Register</a>
 </div>
 {% endif %}
 

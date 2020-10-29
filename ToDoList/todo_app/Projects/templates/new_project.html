@@ -7,6 +7,6 @@
 <form action="{% url 'Projects:new_project' %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button name="submit" class="btn btn-outline-secondary btn-lg">New Project</button>
+    <button name="submit" class="btn btn-outline-warning btn-lg btn-block">Create</button>
 </form>
 {% endblock content %}
